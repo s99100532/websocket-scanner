@@ -19,6 +19,10 @@ var scan = {
 
 scan.captureToCanvas = function() {
     try{
+        if(ws.instance.readyState == 3){
+            console.log("exit capture loop as websocket is closed");
+            return;
+        }
         if(scan.video.videoWidth == 0) {
             setTimeout(scan.captureToCanvas, scan.interval);
             return;
@@ -29,16 +33,23 @@ scan.captureToCanvas = function() {
             scan.imagedata = scan.context.getImageData(0, 0, scan.scaledW, scan.scaledH);
             let grayImg = scan.grayscale(scan.imagedata.data);
             let compressed = pako.deflate(grayImg, { level: 9 });
-
             // for(let i = 0; i < grayImg.length; i++){
             //     frameData[i] = [grayImg[i], grayImg[i], grayImg[i], 255];
             // }
             // var png = UPNG.encode(frameData, scan.scaledW, scan.scaledH, 0);
             // var png = UPNG.encodeLL(scan.imagedata.data, scan.scaledW, scan.scaledH, 1, 0);
 
-	        ws.uploadImage(compressed);
+            /** prevent sending garbage image */
+            if(compressed.length>80000){
+                var obj = {
+                    w: scan.scaledW,
+                    h: scan.scaledH,
+                    img: compressed
+                };
+	            ws.uploadImage(obj);
+            }
             let time = new Date().getTime()-start;
-            console.log("time taken : "+(new Date().getTime()-start));
+            // console.log("time taken : "+(new Date().getTime()-start));
             if(time>scan.interval){
                 scan.captureToCanvas();
             } else {
@@ -67,29 +78,31 @@ scan.grayscale = function(data) {
 }
 
 async function initialize() {
-    ws.instance = new window.WebSocket("ws://localhost:8888");
+    ws.instance = new window.WebSocket("ws://localhost:8888/decode");
 
     ws.instance.onopen = function(e) {
-        console.log('ws on open');
-        ws.instance.send("My name is John");
+        console.log('websocket onopen');
     };
 
     ws.instance.onmessage = function(message) {
-        if(message){
-            ws.instance.close();
-            alert("on message : " + message);
-            //go to message page
+        if(message.data) {
+            const res = JSON.parse(message.data);
+            if (res.status > 0) {
+                alert(res.message);
+                //go to message page
+            }
         }
     }
 
     ws.instance.onerror = function(err) {
-        console.log("error : "+JSON.stringify(err, ["message", "arguments", "type", "name"]));
+        console.log("websocket error : "+JSON.stringify(err, ["message", "arguments", "type", "name"]));
     }
 
-    ws.uploadImage = function(file) {
-        if(ws.instance.readyState==1){
-            ws.instance.send(file);
-            console.log('file sent');
+    ws.uploadImage = function(obj) {
+        if(ws.instance.readyState == 1){
+            ws.instance.send(JSON.stringify(obj));
+        } else {
+            console.log("websocket readyState : "+ws.instance.readyState)
         }
     }
 

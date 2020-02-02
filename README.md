@@ -11,6 +11,10 @@ It couldn't be easier to get started. Simply fork or clone the repo into a local
 ```
 yarn install
 ```
+or
+```
+npm i 
+```
 
 This will install the following dependencies:
 
@@ -24,9 +28,12 @@ If you checkout the `package.json` file, you'll see two scripts, one for develop
 To start the development server, you'll want this command:
 
 ```
-yarn start
+yarn start  
 ```
-
+or
+```
+npm start
+```
 This will quickly bundle all of the necessary files and kick off the development server, which is generated at `http://localhost:1234`. 
 
 ## How to use the starter kit
@@ -38,7 +45,6 @@ Included in the project is a link to a kick-off `app.scss` file where you can lo
 The important files of note are:
 
 - `/index.html` -- this is where the project starts and Parcel looks for its first bundle starting point
-- `/src/app.scss` -- as mentioned, the first file where the system looks for CSS information 
 - `/src/index.js` -- the initial JavaScript file that Parcel comes across as a starting point; it simply injects a string into the index.html page
 
 ## Issues, questions, more information?

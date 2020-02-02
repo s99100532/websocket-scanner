@@ -15,12 +15,15 @@
         <input type="file" id="image-upload" name="image" accept="image/png, image/jpeg">
         <div style="border:1px solid #cecece;margin: 10px 0;padding:10px;">
             <h3>Image not Compressed</h3>
-            <div id="image-preview" style="max-width: 300px;"><img style="max-width: 100%;" src="" alt="" ></div>
+            <div id="image-preview" style="max-width: 300px;"><img style="max-width: 100%;" src="" alt=""></div>
             <button id="btn-compress">Compress</button>
         </div>
         <div style="border:1px solid #cecece;margin: 10px 0;padding:10px;">
             <h3>Image Compressed</h3>
-            <canvas width="300" height="200" id="image-compressed"></canvas>
+            <div>
+                <canvas width="300" height="200" id="image-compressed"></canvas>
+            </div>
+            <button id="download">Download</button>
         </div>
     </main>
 

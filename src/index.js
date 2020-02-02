@@ -31,11 +31,11 @@ window.onload = function () {
                 var canvas = document.querySelector("#image-compressed");
                 var context = canvas.getContext("2d");
                 img.src = fr.result;
-                console.log("uncompressed size " + getMB(fr.result));
                 context.drawImage(img, 0, 0, 300, 200);
                 // 0.5 is compress rate
-                const compressed = canvas.toDataURL("image/jpeg", 0.5);
-                console.log("compressed size " + getMB(compressed));
+                const compressed = canvas.toDataURL("image/jpeg", 0.3);
+                img.src = compressed;
+                context.drawImage(img, 0, 0, 200, 200);
 
             }
 
@@ -43,10 +43,14 @@ window.onload = function () {
         fr.readAsDataURL(files[0]);
 
     })
+
+    document.querySelector("#download").addEventListener('click', download);
 }
 
-function getMB(base64) {
-    var content_without_mime = base64.split(",")[1];
-    var size_in_bytes = window.atob(content_without_mime).length;
-    return size_in_bytes + " MB"
+
+var download = function () {
+    var link = document.createElement('a');
+    link.download = 'XXX.jpg';
+    link.href = document.getElementById('image-compressed').toDataURL("image/jpeg")
+    link.click();
 }

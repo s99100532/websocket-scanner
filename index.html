@@ -1,15 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <title>getUserMedia</title>
-    <script src="js/pako_deflate.min.js"></script>
-    <script src="js/main.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title>Parcel JS bundler starter kit</title>
+    <meta name="description" content="This is a quick and simple starter pack for the Parcel JS bundler system" />
 </head>
+
 <body>
-<div id="container">
-    <video style="width:100%;height:100%" autoplay playsinline></video>
-    <canvas id="canvas" width="400" height="534"></canvas>
-</div>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <main id="root">
+        <input type="file" id="image-upload" name="image" accept="image/png, image/jpeg">
+        <div style="border:1px solid #cecece;margin: 10px 0;padding:10px;">
+            <h3>Image not Compressed</h3>
+            <div id="image-preview" style="max-width: 300px;"><img style="max-width: 100%;" src="" alt="" ></div>
+            <button id="btn-compress">Compress</button>
+        </div>
+        <div style="border:1px solid #cecece;margin: 10px 0;padding:10px;">
+            <h3>Image Compressed</h3>
+            <canvas width="300" height="200" id="image-compressed"></canvas>
+        </div>
+    </main>
+
+    <script src="/src/index.js"></script>
 </body>
+
 </html>
